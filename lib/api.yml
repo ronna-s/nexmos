@@ -1,0 +1,111 @@
+:message:
+  :send:
+    :method: :get
+    :url: /sms/json
+    :required:
+    - from
+    - to
+    - text
+  :send_binary:
+    :method: :get
+    :url: /sms/json
+    :required:
+    - body
+    - udh
+    :params:
+      type: binary
+  :wap_push:
+    :method: :get
+    :url: /sms/json
+    :required:
+    - title
+    - url
+    :optional:
+    - validity
+    :params:
+      type: wappush
+:search:
+  :message:
+    :method: :get
+    :url: /search/message
+    :required:
+    - id
+  :messages:
+    :method: :get
+    :url: /search/messages
+    :optional:
+    - ids
+    - date
+    - to
+  :rejections:
+    :method: :get
+    :url: /search/rejections
+    :required:
+    - date
+    :optional:
+    - to
+:account:
+  :get_balance:
+    :method: :get
+    :url: /account/get-balance
+    :return: value
+  :get_pricing:
+    :method: :get
+    :url: /account/get-pricing/outbound
+    :required:
+    - country
+  :get_prefix_pricing:
+    :method: :get
+    :url: /account/get-prefix-pricing/outbound
+    :required:
+    - prefix
+  :settings:
+    :method: :post
+    :url: /account/settings
+    :optional:
+    - new_secret
+    - mo_call_back_url
+    - dr_call_back_url
+  :get_numbers:
+    :method: :get
+    :url: /account/numbers
+    :optional:
+    - index
+    - size
+    - pattern
+  :top_up:
+    :method: :get
+    :url: /account/top-up
+    :required:
+    - trx
+:number:
+  :search:
+    :method: :get
+    :url: /number/search
+    :required:
+    - country
+    :optional:
+    - pattern
+    - index
+    - size
+  :buy:
+    :method: :post
+    :url: /number/buy
+    :required:
+    - country
+    - msisdn
+  :cancel:
+    :method: :post
+    :url: /number/cancel
+    :required:
+    - country
+    - msisdn
+  :update:
+    :method: :post
+    :url: /number/update
+    :required:
+    - country
+    - msisdn
+    :optional:
+    - mo_http_url
+    - mo_smpp_sys_type
