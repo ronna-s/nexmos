@@ -24,8 +24,9 @@ module Nexmos
       end
       method = args[:method]
       url = args[:url]
+      params.transform_keys!{|key| key.camelize(:lower)}
       res = connection.__send__(method, url, params)
-      Hashie::Mash.new(res.body.merge(:success? => res.success?))
+      ::Hashie::Mash.new(res.body.merge(:success? => res.success?))
     end
 
     class << self
