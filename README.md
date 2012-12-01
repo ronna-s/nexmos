@@ -1,4 +1,4 @@
-# Nexmos
+# Nexmos [![Build Status](https://travis-ci.org/phenomena/nexmos.png)](https://travis-ci.org/phenomena/nexmos)
 
 Nexmo API wrapper
 
