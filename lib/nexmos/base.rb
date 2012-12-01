@@ -32,7 +32,8 @@ module Nexmos
 
       def define_api_calls(key)
         ::Nexmos.apis[key].each do |k,v|
-          define_method(k) do |params = {}|
+          define_method(k) do |*args|
+            params = args[0] || {}
             make_api_call(v, params)
           end
         end
