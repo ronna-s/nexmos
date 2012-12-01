@@ -16,8 +16,8 @@ module Nexmos
     @logger = nil
     @_ran_once = false
     @user_agent = nil
-    @host = nil
-    @http_auth = nil
+    @api_key = nil
+    @api_secret = nil
   end
 
   def user_agent
