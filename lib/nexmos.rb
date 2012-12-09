@@ -1,4 +1,5 @@
 require 'logger'
+require 'multi_json'
 require 'active_support/core_ext/hash'
 require 'faraday'
 require 'faraday_middleware'
