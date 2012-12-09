@@ -66,6 +66,7 @@
     - new_secret
     - mo_call_back_url
     - dr_call_back_url
+    :camelize: true
   :get_numbers:
     :method: :get
     :url: /account/numbers
@@ -109,3 +110,4 @@
     :optional:
     - mo_http_url
     - mo_smpp_sys_type
+    :camelize: true

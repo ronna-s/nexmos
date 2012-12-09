@@ -2,6 +2,8 @@ module Nexmos
   class Base
 
     def initialize(key = ::Nexmos.api_key, secret = ::Nexmos.api_secret)
+      raise 'api_key should be set' if !key.present?
+      raise 'api_secret should be set' if !secret.present?
       @default_params = {
         'api_key' => key,
         'api_secret' => secret
@@ -13,8 +15,36 @@ module Nexmos
     end
 
     def make_api_call(args, params = {})
-      params.stringify_keys!
+      normalize_params(params)
+      check_required_params(args, params)
+      camelize_params(params) if args[:camelize]
       params.merge!(@default_params)
+      get_response(args, params)
+    end
+
+    def get_response(args, params)
+      method = args[:method]
+      url = args[:url]
+      raise 'url or method params missing' if !method.present? || !url.present?
+      res = connection.__send__(method, url, params)
+      ::Hashie::Mash.new(res.body.merge(:success? => res.success?))
+    end
+
+    def normalize_params(params)
+      params.stringify_keys!
+    end
+
+    def camelize_params(params)
+      if params.respond_to?(:transform_keys!)
+        params.transform_keys!{|key| key.camelize(:lower)}
+      else
+        params.keys.each do |key|
+          params[key.camelize(:lower)] = params.delete(key)
+        end
+      end
+    end
+
+    def check_required_params(args, params)
       if args[:required]
         required = params.slice(*args[:required])
         unless required.keys.sort == args[:required].sort
@@ -22,11 +52,6 @@ module Nexmos
           raise ArgumentError, "#{missed} params required"
         end
       end
-      method = args[:method]
-      url = args[:url]
-      params.transform_keys!{|key| key.camelize(:lower)}
-      res = connection.__send__(method, url, params)
-      ::Hashie::Mash.new(res.body.merge(:success? => res.success?))
     end
 
     class << self
