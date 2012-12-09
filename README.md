@@ -14,7 +14,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install nexmo-client
+    $ gem install nexmos
 
 ## Usage
 
