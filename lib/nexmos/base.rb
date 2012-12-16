@@ -27,7 +27,7 @@ module Nexmos
       url = args[:url]
       raise 'url or method params missing' if !method.present? || !url.present?
       res = connection.__send__(method, url, params)
-      ::Hashie::Mash.new(res.body.merge(:success? => res.success?))
+      res.body.merge(:success? => res.success?)
     end
 
     def normalize_params(params)
@@ -78,8 +78,8 @@ module Nexmos
       def connection
         @connection ||= Faraday::Connection.new(faraday_options) do |conn|
           conn.request  :url_encoded
-          conn.response :json, :content_type => /\bjson$/
           conn.response :rashify
+          conn.response :json, :content_type => /\bjson$/
           conn.adapter  Faraday.default_adapter
         end
       end
