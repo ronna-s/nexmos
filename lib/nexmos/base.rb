@@ -27,7 +27,22 @@ module Nexmos
       url = args[:url]
       raise 'url or method params missing' if !method.present? || !url.present?
       res = connection.__send__(method, url, params)
-      res.body.merge(:success? => res.success?)
+      if res.success?
+        data = if res.body.is_a?(::Hash)
+                 res.body.merge(:success? => true)
+               else
+                 ::Hashie::Mash.new({:success? => true})
+               end
+        return data
+      end
+      failed_res = ::Hashie::Mash.new({:success? => false, :not_authorized? => false, :failed? => false})
+      case res.status
+      when 401
+       failed_res.merge! :not_authorized? => true
+      when 420
+       failed_res.merge! :failed? => true
+      end
+      failed_res
     end
 
     def normalize_params(params)

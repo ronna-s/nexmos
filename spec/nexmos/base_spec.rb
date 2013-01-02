@@ -173,6 +173,28 @@ describe ::Nexmos::Base do
                  to_return(:status => 410, :body => {}, :headers => {})
         res = subject.make_api_call(api_params_without_required.merge(:camelize => true), {'test_call' => 'value'})
         res[:success?].should be_false
+        res[:failed?].should be_false
+        res[:not_authorized?].should be_false
+      end
+
+      it 'should have not_authorized? == true' do
+        stub_request(:get, "https://rest.nexmo.com/test/url?api_key=test_api&api_secret=test_secret&testCall=value").
+                 with(webmock_default_headers).
+                 to_return(:status => 401, :body => {}, :headers => {})
+        res = subject.make_api_call(api_params_without_required.merge(:camelize => true), {'test_call' => 'value'})
+        res[:success?].should be_false
+        res[:not_authorized?].should be_true
+        res[:failed?].should be_false
+      end
+
+      it 'should have failed? == true' do
+        stub_request(:get, "https://rest.nexmo.com/test/url?api_key=test_api&api_secret=test_secret&testCall=value").
+                 with(webmock_default_headers).
+                 to_return(:status => 420, :body => {}, :headers => {})
+        res = subject.make_api_call(api_params_without_required.merge(:camelize => true), {'test_call' => 'value'})
+        res[:success?].should be_false
+        res[:not_authorized?].should be_false
+        res[:failed?].should be_true
       end
 
     end

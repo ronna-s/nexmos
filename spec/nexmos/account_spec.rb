@@ -144,4 +144,45 @@ describe ::Nexmos::Account do
     end
   end
 
+  context '#get_numbers' do
+    it 'should return only count on empty numbers' do
+      request = stub_request(:get, "https://rest.nexmo.com/account/numbers?api_key=default_key&api_secret=default_secret").
+          with(webmock_default_headers).to_return(:status => 200, :body => {:count => 0}, :headers => {})
+      res = subject.get_numbers
+      res.should be_kind_of(::Hash)
+      res.success?.should be_true
+      res['count'].should == 0
+      request.should have_been_made.once
+    end
+
+    it 'should return numbers array' do
+      request = stub_request(:get, "https://rest.nexmo.com/account/numbers?api_key=default_key&api_secret=default_secret").
+          with(webmock_default_headers).to_return(:status => 200, :body => { "count" => 1,"numbers" => [{"country" => "ES","msisdn" => "34911067000","type" => "landline"}]}, :headers => {})
+      res = subject.get_numbers
+      res.should be_kind_of(::Hash)
+      res.success?.should be_true
+      res['count'].should == 1
+      res['numbers'].should be_kind_of(::Array)
+      res['numbers'].first.should be_kind_of(::Hash)
+      res['numbers'].first.should == {"country" => "ES","msisdn" => "34911067000","type" => "landline"}
+      request.should have_been_made.once
+    end
+  end
+
+  context '#top_up' do
+    it 'should return error on missed param' do
+      expect { subject.top_up }.to raise_error('trx params required')
+    end
+
+    it 'should success top up' do
+      request = stub_request(:get, "https://rest.nexmo.com/account/top-up?api_key=default_key&api_secret=default_secret&trx=test_trx").
+          with(webmock_default_headers).to_return(:status => 200, :body => '', :headers => {})
+      res = subject.top_up :trx => 'test_trx'
+      res.should be_kind_of(::Hash)
+      res.success?.should be_true
+      request.should have_been_made.once
+    end
+
+  end
+
 end
