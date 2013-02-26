@@ -18,11 +18,45 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+### Send text message
+
+```ruby
+# Nexmos specific client
+client = ::Nexmos::Message.new('api-key', 'api-secret')
+# get result from Nexmo
+res = client.send_text(from: 'your number', to: '+1234567890', text: 'Hello world!')
+# check if send is success
+if res.success?
+  puts "ok"
+else
+  puts "fail"
+end
+```
+
+### Get balance
+
+```ruby
+client = ::Nexmos::Account.new('api-key', 'api-secret')
+res = client.get_balance
+my_balance = res.value
+```
 
 ## Rails integration
 
+You can create `config/initializer/nexmos.rb` file with next content:
 
+```ruby
+Nexmos.setup do |n|
+  n.api_key    = 'api_key'
+  n.api_secret = 'api_secret'
+end
+```
+
+And then you can call all clients without providing key and secret.
+
+## More details about api calls
+
+More details about api calls you can found in the lib/api.yml file.
 
 ## Contributing
 

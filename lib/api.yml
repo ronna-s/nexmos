@@ -1,5 +1,5 @@
 :message:
-  :send:
+  :send_text:
     :method: :get
     :url: /sms/json
     :required:
