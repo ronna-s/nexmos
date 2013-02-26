@@ -1,4 +1,4 @@
-# Nexmos [![Build Status](https://travis-ci.org/phenomena/nexmos.png)](https://travis-ci.org/phenomena/nexmos)
+# Nexmos [![Build Status](https://travis-ci.org/phenomena/nexmos.png)](https://travis-ci.org/phenomena/nexmos)[![Code Climate](https://codeclimate.com/github/phenomena/nexmos.png)](https://codeclimate.com/github/phenomena/nexmos)
 
 Nexmo API wrapper
 
