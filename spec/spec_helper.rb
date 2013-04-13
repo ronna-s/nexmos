@@ -4,6 +4,8 @@
 # loaded once.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+require 'coveralls'
+Coveralls.wear!
 require 'webmock'
 require 'webmock/rspec'
 require 'nexmos'
