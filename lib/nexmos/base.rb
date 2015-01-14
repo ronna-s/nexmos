@@ -81,8 +81,9 @@ module Nexmos
       end
 
       def faraday_options
+        url = (self.inspect == 'Nexmos::TextToSpeech') ? 'https://api.nexmo.com' : 'https://rest.nexmo.com'
         {
-          :url => 'https://rest.nexmo.com',
+          :url => url,
           :headers => {
             :accept =>  'application/json',
             :user_agent => ::Nexmos.user_agent
