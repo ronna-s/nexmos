@@ -111,3 +111,19 @@
     - mo_http_url
     - mo_smpp_sys_type
     :camelize: true
+:text_to_speech:
+  :send_text_to_speech:
+    :method: :get
+    :url: /tts/json
+    :optional:
+    - from
+    - lg
+    - voice
+    - repeat
+    - drop_if_machine
+    - callback
+    - callback_method
+    :required:
+    - to
+    - text
+
